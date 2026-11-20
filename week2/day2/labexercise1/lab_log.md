@@ -482,5 +482,25 @@ Final Amount: Rs. 5400.00<br>
 | Which change improves readability the most, and why? | The addition of calculateDiscount improves readability because it visually spreads the code out into smaller, more readable batches. |
 
 
+<h1>Exercise 5</h1>
 
+<h3>Copilot's Response</h3>
 
+**Test execution sheet**
+| #	| Price (₹) |	Qty	| Total (₹) |	Expected discount |	Expected discount amount (₹) |	Expected final (₹) |	Actual final (₹) |	Pass? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
+| 1	| 800 |	1 | 800	| 0%	| 0.00 |	800.00	|
+| 2	| 1000 | 1 |	1,000 |	5%	| 50.00 |	950.00 | 950.00 | Yes |	
+| 3	| 4999	| 1	| 4,999	| 5% | 249.95 |	4,749.05 |	4,749.05 | Yes |	
+| 4	| 5000	| 1	| 5,000	| 10% |	500.00 |	4,500.00 |	4,500.00 | Yes |
+| 5	| 7000	| 1	| 7,000	| 10% |	700.00 |	6,300.00 |	
+| 6	| 1200	| 5	| 6,000	| 10% |	600.00 |	5,400.00 |		
+| 7	| 999.99 |	1 |	999.99 | 0% |	0.00 |	999.99 |		
+| 8 |	250	| 4 |	1,000	| 5% |	50.00 |	950.00 | 950.00 | Yes |
+
+| Edge case | What happens now? | What should happen? |
+| :--- | :---: | ---: |
+| Total of ₹4,999.50 (between the 5% and 10% bands) |  |  | 
+| Quantity 0 |  |  |
+| Negative price or quantity |  |  |
+| Text instead of a number for price |  |  |
