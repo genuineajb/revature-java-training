@@ -340,6 +340,109 @@ Note: For money in real-world applications, BigDecimal is more precise. However,
 
 <h1>Exercise 4</h1>
 
+<h3>Copilot Response</h3>
+
+The original application is already structured clearly, but discount logic and output formatting are embedded in main(). Extracting them makes the program easier to read and maintain.
+package week2.day2.assignment1;
+
+import java.util.Scanner;
+
+public class BillingApplicationOriginal {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.print("Enter customer name: ");
+		String customerName = scanner.nextLine();
+
+		System.out.print("Enter product name: ");
+		String productName = scanner.nextLine();
+
+		System.out.print("Enter product price: ");
+		double productPrice = scanner.nextDouble();
+
+		System.out.print("Enter quantity: ");
+		int quantity = scanner.nextInt();
+
+		double totalAmount = productPrice * quantity;
+		double discountAmount = calculateDiscount(totalAmount);
+		double finalAmount = totalAmount - discountAmount;
+
+		print,
+		Bill(
+			customerName,
+			productName,
+			totalAmount	discountAmount,
+			finalAmount
+		);
+
+		scanner.close();
+	}
+
+	/**
+	 * Calculates the discount amount in rupees.
+	 */
+	public static double calculateDiscount(double totalAmount) {
+		double discountPercentage = 0.0;
+
+		// Existing SmartStore discount rules
+		if (totalAmount >= 5000) {
+			discountPercentage = 10.0;
+		} else if (totalAmount >= 1000) {
+			discountPercentage = 5.0;
+		}
+
+		return totalAmount * discountPercentage / 100.0;
+	}
+
+	/**
+	 * Prints the billing details in the existing bill format.
+	 */
+	public static void printBill(
+			String customerName,
+			String productName,
+			double totalAmount,
+			double discountAmount,
+			double finalAmount) {
+
+		double discountPercentage = 0.0;
+
+		if (totalAmount >= 5000) {
+			discountPercentage = 10.0;
+		} else if (totalAmount >= 1000) {
+			discountPercentage = 5.0;
+		}
+
+		System.out.println("\n========= SmartStore Bill =========");
+		System.out.println("Customer Name: " + customerName);
+		System.out.println("Product Name: " + productName);
+		System.out.printf("Total Amount: Rs. %.2f%n", totalAmount);
+		System.out.printf("Discount Percentage: %.0f%%%n", discountPercentage);
+		System.out.printf("Discount Amount: Rs. %.2f%n", discountAmount);
+		System.out.printf("Final Amount: Rs. %.2f%n", finalAmount);
+	}
+}
+What changed
+calculateDiscount() now contains all discount calculations and returns the rupee discount.
+
+printBill() contains all bill-display statements.
+
+main() now acts mainly as a coordinator: input, calculation, and method calls.
+
+Variable names such as discountAmount clearly describe their purpose.
+
+This improves readability and makes each responsibility easier to test or modify. However, the current printBill() duplicates discount-percentage rules. A stronger beginner-friendly design would pass the percentage separately:
+```
+public static void printBill(
+		String customerName,
+		String productName,
+		double totalAmount,
+		double discountPercentage,
+		double discountAmount,
+		double finalAmount)
+```
+Then main() could calculate the percentage without duplicating the rules, while calculateDiscount() remains a single-purpose method
+
 **Before:**
 Enter customer name: Rahul
 Enter product name: Laptop Bag
