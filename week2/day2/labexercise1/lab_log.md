@@ -62,3 +62,24 @@ public class BillingApplication {
 		scanner.close();
 	}
 }
+
+
+**Exercise 3**
+
+_Copilot Response_
+
+
+
+_I then asked "Why is price stored as double and quantity as int?". Copilot's Response: _
+
+
+
+_Code Understanding_
+
+| Question	| Your answer |
+| :--- | ---: |
+| Which variables does the program use, and what data type is each? | scanner: Scanner, customerName: String, productName: String,<br> productPrice: double, quantity: int, totalAmount: double,<br> discountPercentage: double, discountAmount: double, finalAmount: double |	
+| Which if-else conditions decide the discount? Write them out.	| double discountPercentage = 0.0;<br>if (totalAmount >= 5000) {<br>    discountPercentage = 10.0;<br>} else if (totalAmount >= 1000) {<br>    discountPercentage = 5.0;<br>} |
+| How is the discount amount calculated? | The discount amount is calculated by multiplying the total amount by the discount percentage and dividing it by 100. |	
+| How is the final amount calculated? | The final amount is calculated by subtracting the discount amount from the total amount. |	
+| Which line would you change if the 10% threshold moved to ₹6,000? | I would change the if condition on Line 29 to if (totalAmount >= 6000) { |	
