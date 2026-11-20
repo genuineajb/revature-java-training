@@ -523,3 +523,8 @@ Expected for decimal boundary test: Rs. 499.95 × 2 = Rs. 999.90, 0% discount, a
 | Quantity 0 | Final amount is 0. | Final amount should be 0. Correct! |
 | Negative price or quantity | Final amount is negative. | Final amount should be 0. |
 | Text instead of a number for price | An exception is thrown. | An exception should be thrown, but there should be an error message. |
+
+
+<h1>Exercise 6</h1>
+
+<h3>Copilot's Response</h3>
