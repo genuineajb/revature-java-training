@@ -649,6 +649,97 @@ assertEquals(expected, actual, 0.001) verifies that the actual result is very cl
 <h2>Part A</h2>
 <h3>Copilot's Response</h3>
 
+1. Possible Logical Errors
+
+	•  Duplicate discount logic: calculateDiscount() and printBill() both determine the percentage. If business rules change, they can become inconsistent.
+	•  Discount percentage is recalculated only for display: This could diverge from the returned discount. It is currently consistent but fragile.
+	•  Class naming: The file is BillingApplication.java, so the class name is correct. Earlier BillingApplicationOriginal references only apply to a renamed file.
+	•  `Scanner` resource: It is closed at the end, which is correct.
+
+No calculation error is visible for the specified thresholds.
+
+2. Incorrect Discount Calculations
+
+The rules are implemented correctly:
+
+	•  Below Rs. 1,000: 0%
+	•  Rs. 1,000–4,999: 5%
+	•  Rs. 5,000 or above: 10%
+
+Example:
+```
+4999 × 5 / 100 = 249.95
+5000 × 10 / 100 = 500.00
+7000 × 10 / 100 = 700.00
+```
+The formula is mathematically correct. Potential precision is an issue because double represents decimal values approximately
+```
+double value = 0.1 + 0.2; // may produce 0.30000000000000004
+```
+This can produce tiny differences in billing or testing.
+
+3. Potential Invalid User Inputs
+
+The application does not validate:
+
+	•  Negative product prices
+	•  Negative or zero quantity
+	•  Non-numeric price or quantity
+	•  Extremely large quantities
+	•  Decimal quantity input
+	•  Empty customer or product names
+
+Examples of bad input:
+
+	•  Price -500
+	•  Quantity -2
+	•  Quantity abc
+	•  Customer name containing only spaces
+	•  Price equal to NaN or Infinity—possible through some Scanner input paths
+
+Without validation, nextDouble() or nextInt() can throw InputMismatchException, or negative values can create an incorrect bill.
+4. Security or Reliability Issues
+
+For this console application:
+
+	•  No validation: Invalid input can terminate the program.
+	•  Plain console output: There is no data persistence or access control.
+	•  No exception handling: Runtime errors are not handled user-friendly.
+	•  Resource risk: Scanner.close() is only reached after successful input.
+	•  Floating-point money: double may cause rounding inaccuracies.
+
+In a real retail system, additionally consider:
+
+	•  Unauthorized bill modification
+	•  Audit logs
+	•  Database transaction handling
+	•  Concurrent inventory updates
+	•  Secure stored customer data
+
+These are less relevant for a small educational console program but become critical for a production retail system
+5. Improvements Before Deployment
+
+Critical Improvements
+
+	1. Validate price and quantity:
+	2. Price must be greater than zero.
+	3. Quantity must be greater than zero.
+	4. Validate input types: Check whether nextDouble() or nextInt() succeeded.
+	5. Handle invalid input: Display an error instead of crashing.
+	6. Avoid monetary calculations with `double`: Use BigDecimal, especially for real currency.
+	7. Calculate the percentage once: Pass it to printBill() instead of repeating business rules.
+	8. Define rounding behavior: Round currency to two decimal places consistently.
+
+Optional Improvements
+
+	•  Extract customer input and purchase input into separate methods.
+	•  Add a loop to allow multiple products or bills.
+	•  Add JUnit tests for boundary values and invalid inputs.
+	•  Format and validate customer/product names.
+	•  Add logging and persistent storage.
+	•  Apply authentication and authorization for real-store use.
+
+
 | Finding from Copilot | Critical or optional? | Do you agree? Why? |
 | :--- | :---: | ---: |
 | Validate user input for price and quantity | Critical | I agree, invalid input like strings for the quantity would crash the program. |
@@ -660,9 +751,116 @@ assertEquals(expected, actual, 0.001) verifies that the actual result is very cl
 
 <h3>Copilot's Response to Weak Prompt</h3>
 
+Please specify what the billing code should calculate or include, such as:
+
+	•  Item name and quantity
+	•  Unit price and total
+	•  Tax and discount
+	•  Customer details
+	•  Console or Swing output
+	•  Any assignment-specific requirements or sample output
+
 <h3>Copilot's Response to Strong Prompt</h3>
 
+import java.util.Scanner;
+
+public class BillingApplication {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Accept customer and purchase details
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine();
+
+        System.out.print("Enter product price: ");
+        double price = scanner.nextDouble();
+
+        System.out.print("Enter quantity: ");
+        int quantity = scanner.nextInt();
+
+        // Validate the entered values
+        if (price < 0 || quantity <= 0) {
+            System.out.println("Price cannot be negative and quantity must be greater than zero.");
+            scanner.close();
+            return;
+        }
+
+        // Calculate billing values
+        double subtotal = calculateSubtotal(price, quantity);
+        double discount = calculateDiscount(subtotal);
+        double discountAmount = subtotal * discount;
+        double finalAmount = subtotal - discountAmount;
+
+        // Display the bill
+        displayBill(customerName, subtotal, discount, discountAmount, finalAmount);
+
+        scanner.close();
+    }
+
+    /**
+     * Calculates the purchase subtotal.
+     */
+    public static double calculateSubtotal(double price, int quantity) {
+        return price * quantity;
+    }
+
+    /**
+     * Returns the applicable discount rate.
+     * 
+     * 0%  for purchases below ₹1,000
+     * 5%  for purchases from ₹1,000 to below ₹5,000
+     * 10% for purchases from ₹5,000 to below ₹10,000
+     * 15% for purchases of ₹10,000 or more
+     */
+    public static double calculateDiscount(double subtotal) {
+        if (subtotal >= 10000) {
+            return 0.15;
+        } else if (subtotal >= 5000) {
+            return 0.10;
+        } else if (subtotal >= 1000) {
+            return 0.05;
+        } else {
+            return 0.00;
+        }
+    }
+
+    /**
+     * Displays the complete retail bill.
+     */
+    public static void displayBill(
+            String customerName,
+            double subtotal,
+            double discount,
+            double discountAmount,
+            double finalAmount) {
+
+        System.out.println("\n========== RETAIL STORE BILL ==========");
+        System.out.println("Customer Name : " + customerName);
+        System.out.printf("Subtotal      : ₹%.2f%n", subtotal);
+        System.out.printf("Discount      : %.0f%%%n", discount * 100);
+        System.out.printf("Discount Amount: ₹%.2f%n", discountAmount);
+        System.out.printf("Final Amount  : ₹%.2f%n", finalAmount);
+        System.out.println("=======================================");
+        System.out.println("Thank you for shopping with us!");
+    }
+}
+Sample Output
+Enter customer name: Ananya
+Enter product price: 250
+Enter quantity: 10
+
+========== RETAIL STORE BILL ==========
+Customer Name : Ananya
+Subtotal      : ₹2500.00
+Discount      : 5%
+Discount Amount: ₹125.00
+Final Amount  : ₹2375.00
+=======================================
+Thank you for shopping with us!
+
+
 <h3>Three Differences</h3>
-1. 
+1.  
 2. 
 3. 
