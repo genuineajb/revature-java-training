@@ -651,10 +651,10 @@ assertEquals(expected, actual, 0.001) verifies that the actual result is very cl
 
 | Finding from Copilot | Critical or optional? | Do you agree? Why? |
 | :--- | :---: | ---: |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
+| Validate user input for price and quantity | Critical | I agree, invalid input like strings for the quantity would crash the program. |
+| Calculate the percentage once by passing it to printBill() instead of repeating business rules. | Critical  | No, I think this just helps visually and isn't critical to the program. |
+| Add a loop to allow multiple products or bills | Optional | I do agree. It's not necessary, but it could be a great feature to add as it gives the program more flexibility.  |
+| Format and validate customer/product names. | Optional | I do agree. It's not necessary, but it'd make the program output look cleaner and neater. |
 
 <h2>Part B</h2>
 
