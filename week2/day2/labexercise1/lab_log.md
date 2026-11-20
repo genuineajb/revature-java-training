@@ -528,3 +528,141 @@ Expected for decimal boundary test: Rs. 499.95 × 2 = Rs. 999.90, 0% discount, a
 <h1>Exercise 6</h1>
 
 <h3>Copilot's Response</h3>
+
+Create a test class with the following methods:
+```
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class BillingApplicationTest {
+
+	@Test
+	public void testCalculateDiscountBelowOneThousand() {
+		double totalAmount = 800.0;
+		double expectedDiscount = 0.0;
+
+		double actualDiscount =
+			BillingApplication.calculateDiscount(totalAmount);
+
+		assertEquals(expectedDiscount, actualDiscount, 0.001);
+	}
+
+	@Test
+	public void testCalculateDiscountAtOneThousand() {
+		double totalAmount = 1000.0;
+		double expectedDiscount = 50.0;
+
+		double actualDiscount =
+			BillingApplication.calculateDiscount(totalAmount);
+
+		assertEquals(expectedDiscount, actualDiscount, 0.001);
+	}
+
+	@Test
+	public void testCalculateDiscountAtFourThousandNineHundredNineNine() {
+		double totalAmount = 4999.0;
+		double expectedDiscount = 249.95;
+
+		double actualDiscount =
+			BillingApplication.calculateDiscount(totalAmount);
+
+		assertEquals(expectedDiscount, actualDiscount, 0.001);
+	}
+
+	@Test
+	public void testCalculateDiscountAtFiveThousand() {
+		double totalAmount = 5000.0;
+		double expectedDiscount = 500.0;
+
+		double actualDiscount =
+			BillingApplication.calculateDiscount(totalAmount);
+
+		assertEquals(expectedDiscount, actualDiscount, 0.001);
+	}
+
+	@Test
+	public void testCalculateDiscountAboveFiveThousand() {
+		double totalAmount = 7000.0;
+		double expectedDiscount = 700.0;
+
+		double actualDiscount =
+			BillingApplication.calculateDiscount(totalAmount);
+
+		assertEquals(expectedDiscount, actualDiscount, 0.001);
+	}
+}
+```
+Test Explanation
+
+1. Below Rs. 1,000
+
+	•  Input: 800.0
+	•  Rule: No discount is applied.
+	•  Expected: 0.0
+	•  The assertion checks that the calculated discount is no more than 0.001 away from 0.0.
+
+2. Exactly Rs. 1,000
+
+	•  Input: 1000.0
+	•  Rule: Apply a 5% discount.
+	•  Calculation: 1000 × 5 ÷ 100 = 50
+	•  Expected: 50.0
+	•  The assertion confirms that the method returns the 5% discount amount.
+
+3. Rs. 4,999
+
+	•  Input: 4999.0
+	•  Rule: Apply a 5% discount.
+	•  Calculation: 4999 × 5 ÷ 100 = 249.95
+	•  Expected: 249.95
+	•  The assertion allows a decimal difference of 0.001.
+4. Exactly Rs. 5,000
+
+	•  Input: 5000.0
+	•  Rule: Apply a 10% discount.
+	•  Calculation: 5000 × 10 ÷ 100 = 500
+	•  Expected: 500.0
+	•  The assertion verifies the exact 5,000 boundary.
+
+5. Above Rs. 5,000
+
+	•  Input: 7000.0
+	•  Rule: Apply a 10% discount.
+	•  Calculation: 7000 × 10 ÷ 100 = 700
+	•  Expected: 700.0
+	•  The assertion verifies that amounts above the boundary receive the 10% discount.
+
+assertEquals(expected, actual, 0.001) verifies that the actual result is very close to the expected result. The third argument is the allowed difference, called the delta
+
+| Test	| Expected discount (₹) |	Pass / fail |	If failed: cause and fix |
+| :--- | :---: | :---: | ---: |
+| 800 |	0.00 | Pass |	|	
+| 1,000	| 50.00	| Pass |  |
+| 4,999	| 249.95 | Pass	|	|
+| 5,000	| 500.00 | Pass	|	|
+| 7,000 | 700.00 | Pass |	|	
+
+
+<h1>Exercise 7</h1>
+
+<h2>Part A</h2>
+<h3>Copilot's Response</h3>
+
+| Finding from Copilot | Critical or optional? | Do you agree? Why? |
+| :--- | :---: | ---: |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+
+<h2>Part B</h2>
+
+<h3>Copilot's Response to Weak Prompt</h3>
+
+<h3>Copilot's Response to Strong Prompt</h3>
+
+<h3>Three Differences</h3>
+1. 
+2. 
+3. 
