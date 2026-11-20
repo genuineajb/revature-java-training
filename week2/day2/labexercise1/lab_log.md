@@ -443,43 +443,43 @@ public static void printBill(
 ```
 Then main() could calculate the percentage without duplicating the rules, while calculateDiscount() remains a single-purpose method
 
-**Before:**
-Enter customer name: Rahul
-Enter product name: Laptop Bag
-Enter product price: 1200
-Enter quantity: 5
+**Before:**<br>
+Enter customer name: Rahul<br>
+Enter product name: Laptop Bag<br>
+Enter product price: 1200<br>
+Enter quantity: 5<br>
 
-========= SmartStore Bill =========
-Customer Name: Rahul
-Product Name: Laptop Bag
-Total Amount: Rs. 6000.00
-Discount Percentage: 10%
-Discount Amount: Rs. 600.00
-Final Amount: Rs. 5400.00
+========= SmartStore Bill =========<br>
+Customer Name: Rahul<br>
+Product Name: Laptop Bag<br>
+Total Amount: Rs. 6000.00<br>
+Discount Percentage: 10%<br>
+Discount Amount: Rs. 600.00<br>
+Final Amount: Rs. 5400.00<br>
 
 
-**After:**
-Enter customer name: Rahul
-Enter product name: Laptop Bag
-Enter product price: 1200
-Enter quantity: 5
+**After:**<br>
+Enter customer name: Rahul<br>
+Enter product name: Laptop Bag<br>
+Enter product price: 1200<br>
+Enter quantity: 5<br>
 
-========= SmartStore Bill =========
-Customer Name: Rahul
-Product Name: Laptop Bag
-Total Amount: Rs. 6000.00
-Discount Percentage: 10%
-Discount Amount: Rs. 600.00
-Final Amount: Rs. 5400.00
+========= SmartStore Bill =========<br>
+Customer Name: Rahul<br>
+Product Name: Laptop Bag<br>
+Total Amount: Rs. 6000.00<br>
+Discount Percentage: 10%<br>
+Discount Amount: Rs. 600.00<br>
+Final Amount: Rs. 5400.00<br>
 
 **Refactoring review**
 | Question | Your answer |
 | :--- | ---: |
-| Which new methods were created, and what does each do? |  |
-| What parameters and return type does calculateDiscount have? |  |
-| Did any discount threshold or comparison (<, >=) change? |  |
+| Which new methods were created, and what does each do? | calculateDiscount() calculates the discount amount in rupees.<br>printBill() prints the billing details in the required format. |
+| What parameters and return type does calculateDiscount have? | It has double totalAmount as a parameter and and a double return type. |
+| Did any discount threshold or comparison (<, >=) change? | No, none changed. |
 | Is the before output identical to the after output? | Yes, character for character. |
-| Which change improves readability the most, and why? |  |
+| Which change improves readability the most, and why? | The addition of calculateDiscount improves readability because it visually spreads the code out into smaller, more readable batches. |
 
 
 
