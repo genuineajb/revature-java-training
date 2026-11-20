@@ -861,6 +861,29 @@ Thank you for shopping with us!
 
 
 <h3>Three Differences</h3>
-1.  
-2. 
-3. 
+1.  In the weak prompt, Copilot didn't know how to perform the task while it did in the strong prompt. This is T: Task
+2.  In the weak prompt, Copilot had no idea on what constraints would be involved while it did with the strong prompt. C: Constraints
+3.  In the weak prompt, Copilot didn't output any code or sample output, while it did with the strong prompt. O: Output
+
+
+<h1>Final Challenge</h1>
+
+<h3>My prompt</h3>
+Act as an experienced Java developer. Develop an employee salary calculator application in Java using Java fundamentals (Scanner, methods, and if-else statements). Accept employee ID, employee name, and basic salary as input. Calculate HRA as 20% of basic salary, DA as 10% of basic salary, and gross salary as basic salary plus HRA plus DA. Deduct a professional tax of ₹200 only when gross salary is strictly greater than ₹20,000, then compute and display the employee's details, salary breakdown, and net salary. Provide complete, executable code with clear comments and sample output
+<h3>Copilot's response/code</h3>
+
+<h3>Copilot's explanation</h3>
+
+<h3>Refactoring</h3>
+
+<h3>Test scenarios</h3>
+
+<h3>One weakness/error in the AI solution</h3>
+
+| # |	Basic (₹) |	HRA (₹) |	DA (₹) |	Gross (₹) |	Tax (₹) |	Expected net (₹) |	Actual net (₹) |	Pass? |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
+| 1 |	10,000 | 2000 | 1000 | 13000 | 0 | 13000 |  |  |							
+| 2 |	15,000 | 3000 | 1500 | 19500 | 0 | 19500 |  |  |							
+| 3 |	16,000 | 3200 | 1600 | 20800 | 200 | 20600 |  |  |							
+| 4 |	50,000 | 10000 | 5000 | 65000 | 200 | 64800 |  |  |							
+| 5 |	15384.62 | 3076.92 | 1538.46 | 20000 | 0 | 20000 |  |  |							
