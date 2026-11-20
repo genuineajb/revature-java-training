@@ -871,19 +871,392 @@ Thank you for shopping with us!
 <h3>My prompt</h3>
 Act as an experienced Java developer. Develop an employee salary calculator application in Java using Java fundamentals (Scanner, methods, and if-else statements). Accept employee ID, employee name, and basic salary as input. Calculate HRA as 20% of basic salary, DA as 10% of basic salary, and gross salary as basic salary plus HRA plus DA. Deduct a professional tax of ₹200 only when gross salary is strictly greater than ₹20,000, then compute and display the employee's details, salary breakdown, and net salary. Provide complete, executable code with clear comments and sample output
 <h3>Copilot's response/code</h3>
+package week2.day2.assignment1;
+
+import java.util.Scanner;
+
+/**
+ * Calculates an employee's gross and net salary.
+ */
+public class SalaryCalculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter employee ID: ");
+        int employeeId = scanner.nextInt();
+        scanner.nextLine(); // Clear the newline character
+
+        System.out.print("Enter employee name: ");
+        String employeeName = scanner.nextLine();
+
+        System.out.print("Enter basic salary: ₹");
+        double basicSalary = scanner.nextDouble();
+
+        // Calculate salary components
+        double hra = calculateHRA(basicSalary);
+        double da = calculateDA(basicSalary);
+        double grossSalary = calculateGrossSalary(basicSalary, hra, da);
+
+        // Apply professional tax only when gross salary is strictly above ₹20,000
+        double professionalTax = calculateProfessionalTax(grossSalary);
+        double netSalary = grossSalary - professionalTax;
+
+        // Display employee and salary details
+        displaySalaryDetails(
+                employeeId,
+                employeeName,
+                basicSalary,
+                hra,
+                da,
+                grossSalary,
+                professionalTax,
+                netSalary
+        );
+
+        scanner.close();
+    }
+
+    /**
+     * Calculates HRA at 20% of basic salary.
+     */
+    public static double calculateHRA(double basicSalary) {
+        return basicSalary * 0.20;
+    }
+
+    /**
+     * Calculates DA at 10% of basic salary.
+     */
+    public static double calculateDA(double basicSalary) {
+        return basicSalary * 0.10;
+    }
+
+    /**
+     * Calculates gross salary.
+     */
+    public static double calculateGrossSalary(
+            double basicSalary,
+            double hra,
+            double da) {
+        return basicSalary + hra + da;
+    }
+
+    /**
+     * Deducts ₹200 professional tax only if gross salary exceeds ₹20,000.
+     */
+    public static double calculateProfessionalTax(double grossSalary) {
+        if (grossSalary > 20000) {
+            return 200.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+    /**
+     * Displays the employee details and salary breakdown.
+     */
+    public static void displaySalaryDetails(
+            int employeeId,
+            String employeeName,
+            double basicSalary,
+            double hra,
+            double da,
+            double grossSalary,
+            double professionalTax,
+            double netSalary) {
+
+        System.out.println("\n----- Employee Salary Details -----");
+        System.out.println("Employee ID      : " + employeeId);
+        System.out.println("Employee Name    : " + employeeName);
+
+        System.out.println("\n----- Salary Breakdown -----");
+        System.out.printf("Basic Salary     : ₹%.2f%n", basicSalary);
+        System.out.printf("HRA (20%%)        : ₹%.2f%n", hra);
+        System.out.printf("DA (10%%)         : ₹%.2f%n", da);
+        System.out.printf("Gross Salary     : ₹%.2f%n", grossSalary);
+        System.out.printf("Professional Tax : ₹%.2f%n", professionalTax);
+        System.out.printf("Net Salary       : ₹%.2f%n", netSalary);
+    }
+}
+Sample input and output when gross salary is above ₹20,000:
+Enter employee ID: 101
+Enter employee name: Rahul Sharma
+Enter basic salary: ₹18000
+
+----- Employee Salary Details -----
+Employee ID      : 101
+Employee Name    : Rahul Sharma
+
+----- Salary Breakdown -----
+Basic Salary     : ₹18000.00
+HRA (20%)        : ₹3600.00
+DA (10%)         : ₹1800.00
+Gross Salary     : ₹23400.00
+Professional Tax : ₹200.00
+Net Salary       : ₹23200.00
+Sample output at the ₹20,000 boundary:
+Enter employee ID: 102
+Enter employee name: Priya Singh
+Enter basic salary: ₹15000
+
+Gross Salary     : ₹19500.00
+Professional Tax : ₹0.00
+Net Salary       : ₹19500.00
 
 <h3>Copilot's explanation</h3>
 
+. Package, Import, and ClassJavapackage week2.day2.assignment1;
+Purpose: Places the class inside the week2.day2.assignment1 package.Why required: Helps organize classes and prevents name conflicts.Concept: Java package.Example: The package must match the folder structure: src/week2/day2/assignment1/.Javaimport java.util.Scanner;
+Purpose: Makes the Scanner class available in this program.Why required: Scanner reads employee details entered through the keyboard.Concept: Import statement.Example: Scanner input = new Scanner(System.in);Javapublic class SalaryCalculator {
+Purpose: Declares the public SalaryCalculator class.Why required: In Eclipse, a Java file should normally have a public class with the same name as the file.Concept: Class declaration.Example: The file name is SalaryCalculator.java, so the class is named SalaryCalculator.Javapublic static void main(String[] args) {
+Purpose: Starts the Java program.Why required: Java looks for this method to begin execution.Concept: main() method.Example:Javapublic static void main(String[] args) {
+    System.out.println("Program started");
+}
+2. Scanner and Employee InputJavaScanner scanner = new Scanner(System.in);
+Purpose: Creates a Scanner object for reading keyboard input.Why required: It receives employee ID, name, and salary.Concept: Object creation and the java.util.Scanner class.Example:JavaScanner scanner = new Scanner(System.in);
+Here, System.in means standard input, usually the keyboard.JavaSystem.out.print("Enter employee ID: ");
+Purpose: Displays a prompt without moving to the next line.Why required: It tells the user what value to enter.Concept: Console output using System.out.print().Example: System.out.print("Enter age: ");Javaint employeeId = scanner.nextInt();
+Purpose: Reads an integer employee ID and stores it in employeeId.Why required: Employee IDs are commonly whole numbers.Concept: Scanner method and integer variable.Data type: int stores whole numbers.Example: If the user enters 101, employeeId contains 101.Javascanner.nextLine();
+Purpose: Clears the newline left after nextInt().Why required: Otherwise, the next nextLine() call may read the remaining newline instead of the employee name.Concept: Input buffer handling.Example:Javaint id = scanner.nextInt();
+scanner.nextLine();
+String name = scanner.nextLine();
+JavaSystem.out.print("Enter employee name: ");
+Purpose: Prompts the user to enter the employee's name.Why required: The name must be collected from the user.Concept: Console output.JavaString employeeName = scanner.nextLine();
+Purpose: Reads the complete name, including spaces.Why required: Employee names may contain first and last names.Concept: String data type and Scanner.nextLine().Example: "Rahul Sharma" is stored in employeeName.Javadouble basicSalary = scanner.nextDouble();
+Purpose: Reads the basic salary entered by the user.Why required: Salary may contain decimal values.Concept: double data type and Scanner input.Data type: double stores decimal numbers.Example: 18000.50 is stored in basicSalary.3. Arithmetic Calculation VariablesJavadouble hra = calculateHRA(basicSalary);
+Purpose: Calls the calculateHRA() method and stores its returned value.Why required: HRA is 20% of the basic salary.Calculation: HRA = basicSalary × 20 / 100Concept: Method call and assignment.Example: For ₹18,000, the result is ₹3,600.Javadouble da = calculateDA(basicSalary);
+Purpose: Calls the calculateDA() method and stores the result.Why required: DA is 10% of the basic salary.Calculation: DA = basicSalary × 10 / 100Concept: Method call and variable assignment.Example: For ₹18,000, the result is ₹1,800.Javadouble grossSalary =
+        calculateGrossSalary(basicSalary, hra, da);
+Purpose: Calculates and stores the gross salary.Why required: Gross salary is the salary before professional tax is deducted.Calculation: grossSalary = basicSalary + HRA + DAConcept: Method call, arguments, and return values.Example: 18,000 + 3,600 + 1,800 = 23,400.Javadouble professionalTax =
+        calculateProfessionalTax(grossSalary);
+Purpose: Determines the professional tax using the gross salary.Why required: Tax is ₹200 only when gross salary is strictly greater than ₹20,000.Concept: Method call and conditional logic.Example: ₹23,400 produces a tax of ₹200, while ₹20,000 produces ₹0.Javadouble netSalary = grossSalary - professionalTax;
+Purpose: Calculates the salary available after professional tax.Why required: Net salary is the employee's take-home salary.Calculation: netSalary = grossSalary - professionalTaxConcept: Arithmetic subtraction.Example: 23,400 - 200 = 23,200.4. Salary Calculation MethodsJavapublic static double calculateHRA(double basicSalary) {
+Purpose: Declares a method that returns the HRA as a double.Why required: It separates the HRA calculation into reusable code.Concept: Static method, parameter, and return type.Example parameter: basicSalary = 18000.Javareturn basicSalary * 0.20;
+Purpose: Calculates 20% and sends the result back to main().Why required: 0.20 represents 20 divided by 100.Concept: Arithmetic and return statement.Example: 18000 × 0.20 = 3600.The same structure applies to DA:Javapublic static double calculateDA(double basicSalary) {
+    return basicSalary * 0.10;
+}
+Purpose: Calculates 10% of basic salary.Example: 18000 × 0.10 = 1800.Javapublic static double calculateGrossSalary(
+        double basicSalary,
+        double hra,
+        double da) {
+Purpose: Declares a method accepting three salary components.Why required: It calculates the gross salary using separate, readable values.Concept: Multiple method parameters.Javareturn basicSalary + hra + da;
+Purpose: Adds all components and returns the gross salary.Concept: Addition and return statement.Example: 18000 + 3600 + 1800 = 23400.5. If-Else Tax ConditionJavapublic static double calculateProfessionalTax(double grossSalary) {
+Purpose: Declares the method that decides whether professional tax applies.Why required: Tax depends on the gross salary.Concept: Method parameter and return value.Javaif (grossSalary > 20000) {
+Purpose: Checks whether gross salary is strictly greater than ₹20,000.Why required: Exactly ₹20,000 must not receive the tax.Concept: if statement and the > comparison operator.Example:₹23,400 > ₹20,000 is true₹20,000 > ₹20,000 is falseJavareturn 200.0;
+Purpose: Returns ₹200 as the professional tax.Why required: This value is used to reduce the gross salary.Concept: return statement.Java} else {
+Purpose: Specifies what to do when the if condition is false.Why required: Employees not exceeding ₹20,000 pay no professional tax.Concept: else statement.Javareturn 0.0;
+Purpose: Returns zero tax for a gross salary of ₹20,000 or less.Concept: Numeric return value.Java}
+Purpose: Ends the if-else block.For example:JavagrossSalary = 19500;
+professionalTax = calculateProfessionalTax(grossSalary); // 0.0
+JavagrossSalary = 23400;
+professionalTax = calculateProfessionalTax(grossSalary); // 200.0
+6. Displaying Employee and Salary DetailsJavadisplaySalaryDetails(
+        employeeId,
+        employeeName,
+        basicSalary,
+        hra,
+        da,
+        grossSalary,
+        professionalTax,
+        netSalary
+);
+Purpose: Sends all calculated values to a display method.Why required: Keeps output formatting separate from calculations.Concept: Method call with multiple arguments.Simple example: It is similar to giving several items as a list:JavaprintDetails(employeeName, basicSalary);
+Javapublic static void displaySalaryDetails(
+        int employeeId,
+        String employeeName,
+        double basicSalary,
+        double hra,
+        double da,
+        double grossSalary,
+        double professionalTax,
+        double netSalary) {
+Purpose: Declares a method that displays employee and salary details.Why required: It provides a reusable and organized output section.Concept: void method and multiple parameters.Note: void means the method does not return a value.JavaSystem.out.println("\n----- Employee Salary Details -----");
+Purpose: Prints a heading and starts with a blank line.Why required: It makes the output easier to read.Concept: println() and escape character \n.Escape character: \n creates a new line.JavaSystem.out.println("Employee ID      : " + employeeId);
+Purpose: Displays the employee ID.Why required: It presents the employee's identifying detail.Concept: String concatenation using +.Example: If employeeId is 101, the output is:PlaintextEmployee ID      : 101
+JavaSystem.out.println("Employee Name    : " + employeeName);
+Purpose: Displays the employee name.Concept: String concatenation.Example: "Employee Name    : Rahul Sharma".JavaSystem.out.printf("Basic Salary     : ₹%.2f%n", basicSalary);
+Purpose: Displays basic salary with exactly two decimal places.Why required: Monetary values should usually be shown to two decimal places.Concept: printf() and format specifiers.Format details:%.2f = display a floating-point number with two decimal places.%n = platform-independent new line.₹ = rupee symbol.The remaining printf() statements follow the same pattern:JavaSystem.out.printf("HRA (20%%)        : ₹%.2f%n", hra);
+%% prints one literal % character.%.2f prints hra with two decimal places.JavaSystem.out.printf("DA (10%%)         : ₹%.2f%n", da);
+Prints DA and a literal percentage sign.JavaSystem.out.printf("Gross Salary     : ₹%.2f%n", grossSalary);
+System.out.printf("Professional Tax : ₹%.2f%n", professionalTax);
+System.out.printf("Net Salary       : ₹%.2f%n", netSalary);
+These print the gross salary, professional tax, and final net salary.7. Closing the ScannerJavascanner.close();
+Purpose: Releases the Scanner resources.Why required: It is good resource-management practice.Concept: Closing an I/O resource.Example: After the scanner is no longer needed, call close().Key Java Concepts SummaryConceptWhere it is usedPackagepackage week2.day2.assignment1;Importimport java.util.Scanner;Classpublic class SalaryCalculatorMethodmain(), calculateHRA(), calculateDA()ScannerKeyboard inputintEmployee IDStringEmployee namedoubleSalary and salary componentsArithmetic operators+, -, *Comparison operator>if-elseProfessional tax decisionString concatenationCombining text and valuesprintf()Two-decimal monetary outputvoidDisplay method that returns nothingBoundary ExampleIf basic salary is exactly ₹15,384.61538:HRA = ₹3,076.92DA = ₹1,538.46Gross salary = ₹20,000.00Because the gross salary is not strictly greater than ₹20,000, professional tax is ₹0, not ₹200.
+
 <h3>Refactoring</h3>
+Move tax and all salary calculations into clearly named methods.
+	•  Keep the original console prompts and exact output format unchanged.
+	•  Remove the gross-salary method parameters when those components can be returned by dedicated methods.
+
+A good refactored version would be:
+package week2.day2.assignment1;
+
+import java.util.Scanner;
+
+public class SalaryCalculatorOriginal {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter employee ID: ");
+        int employeeId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter employee name: ");
+        String employeeName = scanner.nextLine();
+
+        System.out.print("Enter basic salary: ₹");
+        double basicSalary = scanner.nextDouble();
+
+        double houseRentAllowance =
+                calculateHouseRentAllowance(basicSalary);
+
+        double dearnessAllowance =
+                calculateDearnessAllowance(basicSalary);
+
+        double grossSalary =
+                calculateGrossSalary(
+                        basicSalary,
+                        houseRentAllowance,
+                        dearnessAllowance);
+
+        double professionalTax =
+                calculateProfessionalTax(grossSalary);
+
+        double netSalary =
+                calculateNetSalary(grossSalary, professionalTax);
+
+        displaySalaryDetails(
+                employeeId,
+                employeeName,
+                basicSalary,
+                houseRentAllowance,
+                dearnessAllowance,
+                grossSalary,
+                professionalTax,
+                netSalary);
+
+        scanner.close();
+    }
+
+    public static double calculateHouseRentAllowance(double basicSalary) {
+        return basicSalary * 20 / 100;
+    }
+
+    public static double calculateDearnessAllowance(double basicSalary) {
+        return basicSalary * 10 / 100;
+    }
+
+    public static double calculateGrossSalary(
+            double basicSalary,
+            double houseRentAllowance,
+            double dearnessAllowance) {
+        return basicSalary
+                + houseRentAllowance
+                + dearnessAllowance;
+    }
+
+    public static double calculateProfessionalTax(double grossSalary) {
+        if (grossSalary > 20000) {
+            return 200.0;
+        }
+
+        return 0.0;
+    }
+
+    public static double calculateNetSalary(
+            double grossSalary,
+            double professionalTax) {
+        return grossSalary - professionalTax;
+    }
+
+    public static void displaySalaryDetails(
+            int employeeId,
+            String employeeName,
+            double basicSalary,
+            double houseRentAllowance,
+            double dearnessAllowance,
+            double grossSalary,
+            double professionalTax,
+            double netSalary) {
+
+        System.out.println("\n----- Employee Salary Details -----");
+        System.out.println("Employee ID      : " + employeeId);
+        System.out.println("Employee Name    : " + employeeName);
+
+        System.out.println("\n----- Salary Breakdown -----");
+        System.out.printf(
+                "Basic Salary     : ₹%.2f%n",
+                basicSalary);
+
+        System.out.printf(
+                "HRA (20%%)        : ₹%.2f%n",
+                houseRentAllowance);
+
+        System.out.printf(
+                "DA (10%%)         : ₹%.2f%n",
+                dearnessAllowance);
+
+        System.out.printf(
+                "Gross Salary     : ₹%.2f%n",
+                grossSalary);
+
+        System.out.printf(
+                "Professional Tax : ₹%.2f%n",
+                professionalTax);
+
+        System.out.printf(
+                "Net Salary       : ₹%.2f%n",
+                netSalary);
+    }
+}
+Explanation of the Changes
+
+	•  Renamed hra to houseRentAllowance and da to dearnessAllowance.
+	•  This makes it clear that the variables contain rupee amounts rather than percentages.
+	•  Each method is also named after the salary value it calculates.
+	•  Renamed calculateHRA() to calculateHouseRentAllowance().
+	•  The expanded name communicates the calculation's purpose more clearly.
+	•  The method still calculates 20% of the basic salary and returns that amount in rupees.
+	•  Renamed calculateDA() to calculateDearnessAllowance().
+	•  It now clearly calculates the DA rupee amount rather than a percentage.
+	•  Added calculateNetSalary().
+	•  This keeps net-salary arithmetic outside main().
+	•  main() now coordinates input, calculations, and output instead of containing all the formulas.
+	•  Used early tax logic:
+if (grossSalary > 20000) {
+    return 200.0;
+}
+
+return 0.0;
+•  This removes the unnecessary else block.
+	•  It preserves the rule that tax applies only when gross salary is strictly greater than ₹20,000.
+	•  Improved method and line formatting.
+	•  Long method calls and signatures are easier to read.
+	•  Each method has a single responsibility.
+	•  Kept the original business rules:
+	•  HRA remains 20% of basic salary.
+	•  DA remains 10% of basic salary.
+	•  Gross salary remains basic salary plus HRA and DA.
+	•  Professional tax remains ₹200 only above ₹20,000.
+	•  Net salary remains gross salary minus tax.
+	•  Kept the original output format.
+	•  Prompts, headings, labels, rupee symbols, and two-decimal formatting remain unchanged.
+	•  No advanced Java concepts were introduced.
+	•  The solution continues to use the same fundamentals: classes, objects, methods, variables, arithmetic, and if.
 
 <h3>Test scenarios</h3>
+| Basic Salary (₹) | HRA: 20% (₹) | DA: 10% (₹) | Gross Salary (₹) | Professional Tax (₹) | Net Salary (₹) | |---:|---:|---:|---:|---:|---:| | 10,000.00 | 2,000.00 | 1,000.00 | 13,000.00 | 0.00 | 13,000.00 | | 15,000.00 | 3,000.00 | 1,500.00 | 19,500.00 | 0.00 | 19,500.00 | | 16,000.00 | 3,200.00 | 1,600.00 | 20,800.00 | 200.00 | 20,600.00 | | 50,000.00 | 10,000.00 | 5,000.00 | 65,000.00 | 200.00 | 64,800.00 | | 15,384.62 | 3,076.92 | 1,538.46 | 20,000.00 | 0.00 | 20,000.00 |
 
 <h3>One weakness/error in the AI solution</h3>
+One weakness of the AI solution is that rounding errors cause incorrect output when 15384.62 is inputted. The expected outcome is right on the 20000
+boundary, but the program yields 19800. This is because in its calculations, the gross income comes out to 20000.06 instead of 20000.00. this means it 
+falls below the 20000 boundary and 200 is taken out of it due to taxes.
 
 | # |	Basic (₹) |	HRA (₹) |	DA (₹) |	Gross (₹) |	Tax (₹) |	Expected net (₹) |	Actual net (₹) |	Pass? |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
-| 1 |	10,000 | 2000 | 1000 | 13000 | 0 | 13000 |  |  |							
-| 2 |	15,000 | 3000 | 1500 | 19500 | 0 | 19500 |  |  |							
-| 3 |	16,000 | 3200 | 1600 | 20800 | 200 | 20600 |  |  |							
-| 4 |	50,000 | 10000 | 5000 | 65000 | 200 | 64800 |  |  |							
-| 5 |	15384.62 | 3076.92 | 1538.46 | 20000 | 0 | 20000 |  |  |							
+| 1 |	10,000 | 2000 | 1000 | 13000 | 0 | 13000 | 13000 | Yes |							
+| 2 |	15,000 | 3000 | 1500 | 19500 | 0 | 19500 | 19500 | Yes |							
+| 3 |	16,000 | 3200 | 1600 | 20800 | 200 | 20600 | 20600 | Yes |							
+| 4 |	50,000 | 10000 | 5000 | 65000 | 200 | 64800 | 64800 | Yes |							
+| 5 |	15384.62 | 3076.92 | 1538.46 | 20000 | 0 | 20000 | 19800 | No |							
