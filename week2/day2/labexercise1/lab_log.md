@@ -486,21 +486,40 @@ Final Amount: Rs. 5400.00<br>
 
 <h3>Copilot's Response</h3>
 
+| Scenario | Test input | Expected discount % | Discount amount | Final amount | |---|---:|---:|---:|---:| | Below Rs. 1,000 | Price Rs. 500, Quantity 1 | 0% | Rs. 0.00 | Rs. 500.00 | | Exactly Rs. 1,000 | Price Rs. 1,000, Quantity 1 | 5% | Rs. 50.00 | Rs. 950.00 | | Rs. 4,999 | Price Rs. 4,999, Quantity 1 | 5% | Rs. 249.95 | Rs. 4,749.05 | | Exactly Rs. 5,000 | Price Rs. 500, Quantity 10 | 10% | Rs. 500.00 | Rs. 4,500.00 | | Above Rs. 5,000 | Price Rs. 600, Quantity 10 | 10% | Rs. 600.00 | Rs. 5,400.00 | | Quantity greater than one | Price Rs. 250, Quantity 4 | 0% | Rs. 0.00 | Rs. 1,000.00 | | Quantity greater than one, 5% tier | Price Rs. 500, Quantity 3 | 5% | Rs. 75.00 | Rs. 1,425.00 |
+
+Calculation formula: discount amount = total amount × discount percentage ÷ 100
+
+The quantity-greater-than-one row with Rs. 250 × 4 equals exactly Rs. 1,000, so it also belongs to the 5% discount tier rather than the no-discount tier. This is an important quantity boundary test.
+
+Additional edge cases
+
+	•  Zero price: Rs. 0.00 × quantity; expect 0% discount and Rs. 0.00 final amount.
+	•  Zero quantity: Any positive price × quantity 0; expect Rs. 0.00 purchase and no discount.
+	•  Negative price or quantity: Not expected by the business rules. The application does not currently validate them, so such inputs should be rejected or the requirements should define the expected behavior.
+	•  Decimal price: 499.95 × 2 = 999.90 should receive no discount.
+	•  Just below 5% to 10% boundary: 4999.99 should receive 5% discount.
+	•  Just above 5,000: 5000.01 should receive 10% discount.
+	•  Large quantity: Verify that multiplication produces the correct total without overflow for valid int quantities.
+
+Expected for decimal boundary test: Rs. 499.95 × 2 = Rs. 999.90, 0% discount, and Rs. 999.90 final amount.
+
+
 **Test execution sheet**
 | #	| Price (₹) |	Qty	| Total (₹) |	Expected discount |	Expected discount amount (₹) |	Expected final (₹) |	Actual final (₹) |	Pass? |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
-| 1	| 800 |	1 | 800	| 0%	| 0.00 |	800.00	|
+| 1	| 800 |	1 | 800	| 0%	| 0.00 |	800.00	| 800.00 | Yes |
 | 2	| 1000 | 1 |	1,000 |	5%	| 50.00 |	950.00 | 950.00 | Yes |	
 | 3	| 4999	| 1	| 4,999	| 5% | 249.95 |	4,749.05 |	4,749.05 | Yes |	
 | 4	| 5000	| 1	| 5,000	| 10% |	500.00 |	4,500.00 |	4,500.00 | Yes |
-| 5	| 7000	| 1	| 7,000	| 10% |	700.00 |	6,300.00 |	
-| 6	| 1200	| 5	| 6,000	| 10% |	600.00 |	5,400.00 |		
-| 7	| 999.99 |	1 |	999.99 | 0% |	0.00 |	999.99 |		
+| 5	| 7000	| 1	| 7,000	| 10% |	700.00 |	6,300.00 |	6,300.00 | Yes |
+| 6	| 1200	| 5	| 6,000	| 10% |	600.00 |	5,400.00 |	5,400.00 | Yes |
+| 7	| 999.99 |	1 |	999.99 | 0% |	0.00 |	999.99 | 999.99 | Yes |
 | 8 |	250	| 4 |	1,000	| 5% |	50.00 |	950.00 | 950.00 | Yes |
 
 | Edge case | What happens now? | What should happen? |
 | :--- | :---: | ---: |
-| Total of ₹4,999.50 (between the 5% and 10% bands) |  |  | 
-| Quantity 0 |  |  |
-| Negative price or quantity |  |  |
-| Text instead of a number for price |  |  |
+| Total of ₹4,999.50 (between the 5% and 10% bands) | A 5% discount is applied. | A 5% discount should be applied. Correct! | 
+| Quantity 0 | Final amount is 0. | Final amount should be 0. Correct! |
+| Negative price or quantity | Final amount is negative. | Final amount should be 0. |
+| Text instead of a number for price | An exception is thrown. | An exception should be thrown, but there should be an error message. |
